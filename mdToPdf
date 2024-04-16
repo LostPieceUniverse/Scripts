@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+FILENAME=$1
+PDFFILENAME=${FILENAME::-3}
+PDFFILENAME+=".pdf"
+
+pandoc $FILENAME -o $PDFFILENAME 

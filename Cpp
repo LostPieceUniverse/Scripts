@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+FILENAME=$1
+HEADER="${FILENAME}.h"
+SRC="${FILENAME}.cpp"
+
+mkdir $FILENAME
+cd $FILENAME
+
+mkdir includes
+cd includes
+
+echo "#pragma once" > "$HEADER"
+echo "#include \"iostream\"">> "$HEADER"
+echo "#include \"string\"">> "$HEADER"
+echo "#include \"cstring\"">> "$HEADER"
+echo "using namespace std;">> "$HEADER"
+
+cd ..
+
+
+echo "#include \"includes/$HEADER\"" > "$SRC"
+echo "int main(args[]){" >> "$SRC"
+echo "\tcout << \"hello world\" << endl;" >> "$SRC"
+echo "\treturn 0;" >> "$SRC"
+echo "}" >> "$SRC"
+
+
