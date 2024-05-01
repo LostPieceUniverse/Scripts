@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
-mkdir "$1"
-cd "$1"
-dotnet new console
-:> Program.cs
-echo "using System;" >> Program.cs
-echo "using System.Collections.Generic;" >> Program.cs
-echo "using System.Linq;" >> Program.cs
-echo "using System.Text;" >> Program.cs
-echo "using System.Threading.Tasks;" >> Program.cs
-echo " " >> Program.cs
-echo "namespace $1"  >> Program.cs
-echo "{" >> Program.cs
-echo "    internal class Program" >> Program.cs
-echo "    {" >> Program.cs
-echo "        static void Main(string[] args)" >> Program.cs
-echo "        {" >> Program.cs
-echo "            Console.WriteLine();" >> Program.cs
-echo "        }" >> Program.cs
-echo "    }" >> Program.cs
-echo "}" >> Program.cs
+mkdir "$1" && cd "$1" || exit
 
+dotnet new console
+
+cat <<EOF >Program.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace $1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine();
+        }
+    }
+}
+EOF

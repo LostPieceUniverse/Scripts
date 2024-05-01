@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-FILENAME=$1
 
-echo "#!/usr/bin/env bash" >> "$FILENAME"
+echo "#!/usr/bin/env bash" >> "$1"
