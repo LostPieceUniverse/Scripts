@@ -1,6 +1,0 @@
-#! /bin/bash
-
-WINEPREFIX=/mnt/ea55063c-ad52-449a-ade1-570359dee44b/guild-wars-2/ \
-	WINEFSYNC=1 \
-	/home/haru/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine \
-	/mnt/ea55063c-ad52-449a-ade1-570359dee44b/guild-wars-2/drive_c/Program\ Files/Guild\ Wars\ 2/GW2-64.exe -autologin > /dev/null 2>&1
