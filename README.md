@@ -1,9 +1,10 @@
-# Description
+# My BASH scripts
+## Description
 
 These scripts were crafted out of a combination of laziness and a love for tinkering. They serve various purposes, 
 from automating mundane tasks to experimenting with different programming concepts.
 
-# Scripts
+## Scripts
 
 **Bash:** ```Bash <filename>```
 - Creates a Bash script file (filename.sh) with the shebang (#!/usr/bin/env bash) pre-written in it. It's a shortcut to avoid typing the shebang every time.
@@ -17,7 +18,7 @@ from automating mundane tasks to experimenting with different programming concep
 - Converts a Markdown file to a PDF.
 - Uses Pandoc for the conversion, which is convenient when working with Markdown files frequently.
 
-# Note
+## Note
 
 **Cpp:** <br>
 This script is outdated and, frankly, not up to par with my current standards. 
