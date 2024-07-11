@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+#!/bin/bash
+
+
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root (e.g., sudo $0)"
+  exit 1
+fi
+
+# Pacman
+echo "Updating pacman..."
+pacman -Syu --noconfirm
+
+# Flatpak
+echo "Updating flatpak..."
+flatpak update -y
+
+# Doom Emacs
+echo "Updating Doom Emacs..."
+cd ~/.emacs.d
+git pull
+doom clean
+doom sync
+doom update
+
+echo "All updates completed successfully."
