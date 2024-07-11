@@ -16,12 +16,4 @@ pacman -Syu --noconfirm
 echo "Updating flatpak..."
 flatpak update -y
 
-# Doom Emacs
-echo "Updating Doom Emacs..."
-cd ~/.emacs.d
-git pull
-doom clean
-doom sync
-doom update
-
 echo "All updates completed successfully."
