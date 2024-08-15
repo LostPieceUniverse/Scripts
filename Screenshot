@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd ~/Pictures/Screenshot/ || exit
+
+grim -g "$(slurp)" "$1"
