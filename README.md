@@ -18,12 +18,11 @@ from automating mundane tasks to experimenting with different programming concep
 - Converts a Markdown file to a PDF.
 - Uses Pandoc for the conversion, which is convenient when working with Markdown files frequently.
 
-**Update:** ```sudo Update```
+**Update:** ```sudo Update``` [not updated and functional at the moment]
 
 - Script is run as root.
 - Updates `pacman`
 - Updates `flatpak`
-- Updates Doom Emacs by pulling the latest changes
 
 
 ## Note
