@@ -23,4 +23,5 @@ namespace $1
 }
 EOF
 
-nvim Program.cs
+#nvim Program.cs
+lvim Program.cs

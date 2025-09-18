@@ -3,3 +3,5 @@
 cd ~/Pictures/Screenshot/ || exit
 
 grim -g "$(slurp)" "$1"
+
+cd ~/Pictures/Screenshot/

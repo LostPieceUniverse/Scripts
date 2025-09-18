@@ -2,4 +2,6 @@
 
 
 echo "#!/usr/bin/env bash" >> "$1.sh"
-nvim "$1.sh"
+
+#nvim "$1.sh"
+lvim "$1.sh"
