@@ -2,3 +2,4 @@
 
 
 echo "#!/usr/bin/env bash" >> "$1"
+nvim "$1"
