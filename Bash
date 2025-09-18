@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 
-echo "#!/usr/bin/env bash" >> "$1"
-nvim "$1"
+echo "#!/usr/bin/env bash" >> "$1.sh"
+nvim "$1.sh"
