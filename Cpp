@@ -1,28 +1,36 @@
 #!/usr/bin/env bash
 
-FILENAME=$1
-HEADER="${FILENAME}.h"
-SRC="${FILENAME}.cpp"
+[[ $# -ne 1 ]] && { echo "Usage: $0 <project_name>"; exit 1; }
 
-mkdir $FILENAME
-cd $FILENAME
+PROJECT="$1"
 
-mkdir includes
-cd includes
+mkdir "$PROJECT" && cd "$PROJECT"
 
-echo "#pragma once" > "$HEADER"
-echo "#include \"iostream\"">> "$HEADER"
-echo "#include \"string\"">> "$HEADER"
-echo "#include \"cstring\"">> "$HEADER"
-echo "using namespace std;">> "$HEADER"
+#create basic CMakeLists.txt
+cat > CMakeLists.txt << EOF
+cmake_minimum_required(VERSION 3.16)
+project($PROJECT)
 
-cd ..
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_executable($PROJECT src/main.cpp)
+EOF
 
-echo "#include \"includes/$HEADER\"" > "$SRC"
-echo "int main(args[]){" >> "$SRC"
-echo "\tcout << \"hello world\" << endl;" >> "$SRC"
-echo "\treturn 0;" >> "$SRC"
-echo "}" >> "$SRC"
+#create src dir and main file
+mkdir src
+cat > src/main.cpp << 'EOF'
+#include <iostream>
 
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+EOF
 
+#generate build files and build
+cmake -B build -S .
+cmake --build build
+
+nvim src/main.cpp
+EOF
