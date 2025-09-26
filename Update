@@ -1,16 +1,161 @@
 #!/usr/bin/env bash
 
+set -euo pipefail #Exit on error
+
+#Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+#Logging
+log() {
+    echo -e "${BLUE}[$(date '+%Y-%m-%d %H:%M:%S')]${NC} $1"
+}
+
+error() {
+    echo -e "${RED}[ERROR]${NC} $1" >&2
+}
+
+success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+#running as root?
 if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root (e.g., sudo $0)"
-  exit 1
+    error "This script must be run as root"
+    echo "Usage: sudo $0"
+    exit 1
 fi
 
-# Pacman
-echo "Updating pacman..."
-pacman -Syu --noconfirm
+#internet connectivity?
+check_internet() {
+    if ! ping -c 1 google.com &> /dev/null; then
+        error "No internet connection detected"
+        exit 1
+    fi
+}
 
-# Flatpak
-echo "Updating flatpak..."
-flatpak update -y
+#pacman stuff
+update_pacman() {
+    log "Updating pacman package database and packages..."
+    
+    #refresh package db
+    if pacman -Sy --noconfirm; then
+        success "Package database refreshed"
+    else
+        error "Failed to refresh package database"
+        return 1
+    fi
+    
+    #check for updates
+    local updates=$(pacman -Qu | wc -l)
+    if [ "$updates" -eq 0 ]; then
+        success "All pacman packages are up to date"
+        return 0
+    fi
+    
+    log "Found $updates package(s) to update"
+    
+    if pacman -Su --noconfirm; then
+        success "Pacman packages updated successfully"
+    else
+        error "Failed to update pacman packages"
+        return 1
+    fi
+}
 
-echo "All updates completed successfully."
+#update AUR stuff (if yay is installed)
+update_aur() {
+    if command -v yay &> /dev/null; then
+        log "Updating AUR packages with yay..."
+        if sudo -u "$(logname)" yay -Syu --noconfirm --aur; then
+            success "AUR packages updated successfully"
+        else
+            warning "Failed to update some AUR packages"
+        fi
+    else
+        log "yay not found, skipping AUR updates"
+    fi
+}
+
+#update flatpak stuff
+update_flatpak() {
+    if command -v flatpak &> /dev/null; then
+        log "Updating flatpak packages..."
+        
+        #check for flatpak updates
+        local flatpak_updates=$(flatpak remote-ls --updates 2>/dev/null | wc -l)
+        
+        if [ "$flatpak_updates" -eq 0 ]; then
+            success "All flatpak packages are up to date"
+        else
+            log "Found $flatpak_updates flatpak update(s)"
+            if flatpak update -y; then
+                success "Flatpak packages updated successfully"
+            else
+                warning "Failed to update some flatpak packages"
+            fi
+        fi
+    else
+        log "Flatpak not installed, skipping flatpak updates"
+    fi
+}
+
+# Clean package cache
+clean_cache() {
+    log "Cleaning package cache..."
+    
+    # Clean pacman cache (keep 3 most recent versions)
+    if paccache -r -k 3; then
+        success "Pacman cache cleaned"
+    fi
+    
+    # Clean yay cache if available
+    if command -v yay &> /dev/null; then
+        sudo -u "$(logname)" yay -Sc --noconfirm
+        success "AUR cache cleaned"
+    fi
+}
+
+#update system firmware (if fwupd is available)
+update_firmware() {
+    if command -v fwupdmgr &> /dev/null; then
+        log "Checking for firmware updates..."
+        if fwupdmgr refresh && fwupdmgr update; then
+            success "Firmware updated successfully"
+        else
+            log "No firmware updates available or update failed"
+        fi
+    fi
+}
+
+main() {
+    log "Starting system update process..."
+    
+    check_internet
+    
+    update_pacman
+    update_aur
+    update_flatpak
+    
+    # Optional: Update firmware
+    # update_firmware
+    
+    clean_cache
+    
+    success "All updates completed successfully!"
+    
+    #check if reboot is needed
+    if [ -f /var/run/reboot-required ]; then
+        warning "A reboot is required to complete some updates"
+        echo "Run 'sudo reboot' when convenient"
+    fi
+}
+
+main "$@"
