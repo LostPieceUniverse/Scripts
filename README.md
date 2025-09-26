@@ -18,12 +18,15 @@ from automating mundane tasks to experimenting with different programming concep
 - Converts a Markdown file to a PDF.
 - Uses Pandoc for the conversion, which is convenient when working with Markdown files frequently.
 
-**Update:** ```sudo Update``` [not updated and functional at the moment]
-
-- Script is run as root.
-- Updates `pacman`
-- Updates `flatpak`
-
+**Update:** ```sudo Update```
+  - Run as root
+  - Colored output with timestamps
+  - Internet connectivity check
+  - Updates pacman, AUR (yay), Flatpak
+  - Firmware updates (fwupdmgr)
+  - Cache cleaning
+  - Reboot notifications
+  - Error handling with `set -euo pipefail`
 
 ## Note
 
