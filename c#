@@ -1,27 +1,11 @@
 #!/usr/bin/env bash
 
-mkdir "$1" && cd "$1" || exit
+#Check if project name provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <project-name"
+    exit 1
+fi
 
-dotnet new console
+dotnet new console --use-program-main --name "$1"
 
-cat <<EOF >Program.cs
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace $1
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine();
-        }
-    }
-}
-EOF
-
-#nvim Program.cs
-lvim Program.cs
+nvim "$1"/Program.cs
