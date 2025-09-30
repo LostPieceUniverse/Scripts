@@ -18,7 +18,7 @@ from automating mundane tasks to experimenting with different programming concep
 - Converts a Markdown file to a PDF.
 - Uses Pandoc for the conversion, which is convenient when working with Markdown files frequently.
 
-**Update:** ```sudo Update```
+**Update:** ```sudo /path/to/Update``` or ```sudo $(which Update)```
   - Run as root
   - Colored output with timestamps
   - Internet connectivity check
@@ -27,10 +27,8 @@ from automating mundane tasks to experimenting with different programming concep
   - Cache cleaning
   - Reboot notifications
   - Error handling with `set -euo pipefail`
+  - Note: Because sudo uses a restricted PATH, you must either:
+    - Use the full path to the script (e.g., `/home/user/scripts/Update` or `/usr/local/bin/Update`)
+    - Use command substitution: `sudo $(which Update)`
+    - Alternatively, add an alias to your shell config: `alias update='sudo $(which Update)`'
 
-## Note
-
-**Cpp:** <br>
-This script is outdated and, frankly, not up to par with my current standards. 
-I may revisit it and make improvements in the future, but for now, it remains as is. 
-Apologies for any inconvenience!
