@@ -7,12 +7,14 @@ from automating mundane tasks to experimenting with different programming concep
 ## Scripts
 
 **Bash:** ```Bash <filename>```
-- Creates a Bash script file (filename.sh) with the shebang (#!/usr/bin/env bash) pre-written in it. It's a shortcut to avoid typing the shebang every time.
+- Creates a Bash script file (filename.sh) with the shebang pre-written.
+- Automatically adds executable permissions to the created script.
+- Opens the file in your default editor for immediate editing.
 
-**c#:** ```c# <filename>```
-- Creates a new directory with the provided name as an argument.
-- Generates a basic C# console application using ```dotnet new console```.
-- Creates a Program.cs file with a basic structure for a C# console application, including a namespace and a Main method.
+**c#:** ```c# <project name>```
+- Generates a new C# console application using `dotnet new console --use-program-main` with provided project name.
+- Opens the generated Program.cs file in Neovim for immediate editing.
+- Note: Requires .NET SDK.
 
 **mdToPdf:** ```mdToPdf <markdownfile.md>```
 - Converts a Markdown file to a PDF.
